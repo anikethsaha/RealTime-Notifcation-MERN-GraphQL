@@ -1,4 +1,4 @@
-'use strict';
+
 require('babel-core/register')
 import express from "express";
 import React from "react";
@@ -15,6 +15,7 @@ var csrf = require('csurf');
 var cookieParse = require('cookie-parser');
 var expressControllers = require('express-controller');
 var path = require('path');
+var bodyParser= require('body-parser');
 const mongoose = require('mongoose');
 const graphqlHTTP = require('express-graphql');
 
@@ -29,6 +30,11 @@ const schema = require('./graphqlSchema/GraphqlUserSchema.js');
 
 
 //Middleware
+//graphql middleware // NOTE:keep this (graphql_ ) middleware at top
+app.use('/graphql', graphqlHTTP(req => ({
+ schema ,                                      // schema : schema
+ graphiql:true
+})))
 app.use(cookieParse());
 // var sessionSecrect = bcrypt.hashSync('Your_Secret_key',7); // not writing cause this key should be known by the bank website gateway too
 // app.use(session({
@@ -40,12 +46,8 @@ app.use(cookieParse());
 //
 //
 // }))
+app.use(bodyParser.urlencoded({extended: true}));
 
-//graphql middleware
-app.use('/graphql', graphqlHTTP(req => ({
- schema ,                                      // schema : schema
- graphiql:true
-})))
 // User defined middleware
 const Api_Key_Middleware = require('./Middleware/apiKeyVerify.js');
 
@@ -73,7 +75,7 @@ app.get('/',(req,res)=>{
 })
 
 app.post('/merchant/register' , merchantController.register);
-app.post('/merchant/pay/:api_key', Api_Key_Middleware.VerifyApi_Key , merchantController.FetchAndMakePayment);
+app.post('/merchant/pay', Api_Key_Middleware.VerifyApi_Key , merchantController.FetchAndMakePayment);
 
 
 var server = app.listen(5000,() => console.log("server Running in port 5000"))
