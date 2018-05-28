@@ -2,6 +2,7 @@ var jwt = require('jsonwebtoken');
 var CryptoJS = require("crypto-js");
 var md5 = require("crypto-js/md5");
 var bcrypt = require('bcrypt');
+var crypto = require('crypto');
 
 
 //bcrypt for password
@@ -18,6 +19,10 @@ const AESEncryptionKey =  () => {
 };
 
 module.exports = {
+  AESEncryptionKey,
+  getRandomNumber : (bits)=>{
+    return crypto.randomBytes(bits).toString('hex');
+  },
   PasswordhashBcrypt : (passwordToHash) => {
     return bcrypt.hashSync(passwordToHash, salt);
   },
