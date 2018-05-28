@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 var _ = require('lodash');
+var Encryption  = require('../Encryption.js');
 const  {
   GraphQLObjectType,
   GraphQLString,
@@ -9,7 +10,7 @@ const  {
   GraphQLList
  } = graphql;
 const MerchantUser = require('../model/merchant.js');
-//sample data // mongodb collection comming soon
+const TransactionModel = require('../model/Transaction.js');
 const transactionArray = [
   {
     "_id":1,
@@ -30,24 +31,24 @@ const transactionArray = [
      "Merchant_Mid":"5212b7d9"
    }
 ]
-transactionArray.map((k,i) =>{
-  console.log(k , i);
-})
+
 const TransactionType = new GraphQLObjectType({
   name : "Transaction",
   fields : ()=>({
-    _id : {Types:GraphQLInt},
-    recieverAccountName : {Types : GraphQLString},
-    recieverAccountNumber : {Types : GraphQLString},
-    senderAccountNumber : {Types : GraphQLString},
-    senderAccountName : {Types : GraphQLString},
-    Amount : {Types : GraphQLInt}
-    // MerchantUserData : {
-    //   Types : UserType,
-    //   resolve(parent,args){
-    //     return MerchantUser.find(_Mid : parent._Mid).exec();
-    //   }
-    // }
+    _id : {type:GraphQLInt},
+    _Tid : {type:GraphQLString},
+    _Mid : {type:GraphQLString},
+    recieverAccountName : {type : GraphQLString},
+    recieverAccountNumber : {type : GraphQLString},
+    senderAccountNumber : {type : GraphQLString},
+    senderAccountName : {type : GraphQLString},
+    Amount : {type : GraphQLInt},
+    MerchantUserData : {
+      type : UserType,
+      resolve(parent,args){
+        return MerchantUser.findOne({_Mid : parent._Mid}).exec();
+      }
+    }
   })
 });
 
@@ -62,7 +63,13 @@ const UserType = new GraphQLObjectType({
     account_Number : {type : GraphQLInt},
     phone_no:{type : GraphQLInt},
     identification_number:{type : GraphQLInt},
-    _Mid :{type : GraphQLString}
+    _Mid :{type : GraphQLString},
+    transactionDetails :{
+      type : new GraphQLList(TransactionType),
+      resolve(parent,args){
+        return TransactionModel.find({_Mid:parent._Mid}).exec();
+      }
+    }
   })
 });
 const RootQuery = new GraphQLObjectType({
@@ -81,12 +88,17 @@ const RootQuery = new GraphQLObjectType({
     },
     transaction :{
         type : TransactionType,
-        args : {id : { type : GraphQLString}},
+        args : {_Tid : { type : GraphQLString}},
         resolve(parent,args){
             // fetch from db here
-
-              return _.find(transactionArray,{id:args._id});
+          return TransactionModel.findOne({_Tid:args._Tid}).exec();
         }
+    },
+    Transactions :{
+      type : new GraphQLList(TransactionType),
+      resolve(parent,args){
+        return TransactionModel.find().exec();
+      }
     },
     Users : {
       type :  new GraphQLList(UserType),
@@ -98,6 +110,36 @@ const RootQuery = new GraphQLObjectType({
 
   }
 });
+
+const mutation = new GraphQLObjectType({
+  name : "mutation",
+  fields : {
+    addTransaction : {
+      type : TransactionType,
+      args : {
+        recieverAccountName : {type : GraphQLString},
+        recieverAccountNumber : {type : GraphQLString},
+        senderAccountName : {type : GraphQLString},
+        senderAccountNumber : {type : GraphQLString},
+        _Mid : {type : GraphQLString},
+        Amount : {type : GraphQLInt}
+      },
+      resolve(parent,args){
+        let transactionModel = new TransactionModel();
+          transactionModel.recieverAccountName = args.recieverAccountName;
+          transactionModel.recieverAccountNumber = args.recieverAccountNumber;
+          transactionModel.senderAccountName = args.senderAccountName;
+          transactionModel.senderAccountNumber = args.senderAccountNumber;
+          transactionModel._Mid = args._Mid;
+          transactionModel.Amount = args.Amount;
+          transactionModel._Tid = Encryption.getRandomNumber(3);
+        return transactionModel.save();
+      }
+    }
+  }
+})
+
 module.exports = new GraphQLSchema({
-  query : RootQuery
+  query : RootQuery,
+  mutation:mutation
 });
