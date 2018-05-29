@@ -20,6 +20,7 @@ export default class CenterHeader extends React.Component{
             &#128276;
           </span>
         </div>
+      
       </div>
     )
   }

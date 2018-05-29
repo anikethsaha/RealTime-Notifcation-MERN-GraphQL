@@ -4,7 +4,8 @@ export default class SideBar extends React.Component{
     return (
       <div className="sideBar three columns">
           <div className="container">
-            <div>
+
+            <div className="side-bar-header">
                 <h2>Payment-Gateway</h2>
             </div>
             <div>

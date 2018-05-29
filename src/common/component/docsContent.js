@@ -8,7 +8,7 @@ export default class DocsContent extends React.Component{
   render(){
 
     return (
-      <div className="content-wrapper">
+      <div className="content-wrapper ">
                 <div key={this.props.i} className="post-content-div">
                   <div className="">
                       <div className = " content-title">
@@ -17,7 +17,7 @@ export default class DocsContent extends React.Component{
                       <div className = " content-body">
                           <p>{this.props.p}</p>
                       </div>
-                      <span>{this.props.span}</span>
+                      
                       <br/>
                       <a >{this.props.a}</a>
                   </div>
