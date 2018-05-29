@@ -1,6 +1,6 @@
 body{
   background: #f8f8f9;
-  color: rgba(0,0,0,.6);
+  color: #434343;
 }
 .header{
   position: fixed;
@@ -12,6 +12,35 @@ box-shadow: 0 1px 20px 0 rgba(46,61,73,.2);
 -webkit-animation: sticky-slide-down .4s ease .25s forwards;
 animation: sticky-slide-down .4s ease .25s forwards;
 }
+.post-title textarea{
+  width: 100%;
+  border: 0;
+  margin: 0;
+  font-size: 1.25rem;
+  resize: none;
+  font-weight: 600;
+}
+.post-form h3{
+  font-size: 2em;
+    text-align: center;
+    background: white;
+    padding: .5em 0;
+}
+.post-body textarea{
+
+    width: 100%;
+    border: 0;
+    font-size: 1em;
+    resize: none;
+    height: 50%;
+    margin-bottom: 24px;
+}
+.post-form label{
+  font-size: 1.2em;
+font-weight: 600;
+color: #455a64;
+text-align: center;
+}
 .content-title h1{
   font-weight: bold;
     margin-bottom: 4px;
@@ -21,9 +50,33 @@ animation: sticky-slide-down .4s ease .25s forwards;
 .header-div{
   width: 100%;
 }
+.post-menu-icon{
+  display: block;
+  position: relative;
+  border-radius: 100%;
+  color: #7e818d;
+  width: 7em;
+
+  margin: 0 1em;
+  font-size: .9em;
+  margin: .31em auto;
+}
+.post-menu-icon button{
+  width: 7em;
+border-radius: 0;
+border: 2px solid #434343;
+background: #ffc83d;
+color: white;
+padding: 0;
+}
 .content-body p{
   font-size: 1.3em;
 text-align: left;
+}
+.post-form{
+
+/* padding: 1em; */
+margin: 1em;
 }
 .post-content-div{
   background: #FFF;
@@ -54,8 +107,11 @@ top: 0;
 z-index: 910;
 height: 100%;
 padding: 3em 0;
-right: -50%;
-transition: .8s all ease-in-out;
+right: -100%;
+transition: .3s all ease-in-out;
+}
+.side-bar-header{
+  margin-top: 3em;
 }
 .open{
   right: 0;
@@ -83,6 +139,7 @@ float: right;
 }
 .side-menu-icon span{
   cursor: pointer;
+  color: #434343;
 }
 .right-panel-close-icon{
   color: #535665;
