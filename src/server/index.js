@@ -7,7 +7,7 @@ app.use(express.static("."));
 const fs = require('fs');
 var path = require('path');
 require('babel-core/register');
-import App from "../common/component/App.js";
+
 import { renderToString } from "react-dom/server";
 var CryptoJS = require("crypto-js");
 var md5 = require("crypto-js/md5");
@@ -20,7 +20,8 @@ const mongoose = require('mongoose');
 const graphqlHTTP = require('express-graphql');
 
 
-
+//ReactJS components
+import App from "../common/component/App.js";
 //database connection
 mongoose.connect('mongodb://localhost/payment-gateway-api');
 
@@ -31,7 +32,7 @@ const schema = require('./graphqlSchema/GraphqlUserSchema.js');
 
 //Middleware
 //graphql middleware // NOTE:keep this (graphql_ ) middleware at top
-app.use('/graphql', graphqlHTTP(req => ({
+app.use('/graphqlInterface', graphqlHTTP(req => ({
  schema ,                                      // schema : schema
  graphiql:true
 })))
@@ -67,7 +68,8 @@ app.set('view engine', 'ejs');
 
 //routes
 app.get('/',(req,res)=>{
-  var myapp = renderToString(<App />);
+  var d = "helloServer";
+  var myapp = renderToString(<App data={d} />);
   var html = fs.readFileSync('./public/views/index.ejs');
   html = html.toString();
   html = html.replace("<!-- APP -->",myapp);
