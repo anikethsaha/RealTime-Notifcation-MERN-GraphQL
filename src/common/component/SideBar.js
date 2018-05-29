@@ -6,7 +6,7 @@ export default class SideBar extends React.Component{
           <div className="container">
 
             <div className="side-bar-header">
-                <h2>Payment-Gateway</h2>
+                <h2>MERN+GraphQL</h2>
             </div>
             <div>
                 <h1>Stack Used</h1>
