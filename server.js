@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,32 +74,67 @@ module.exports = require("react");
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("mongoose");
+module.exports = require("react-apollo");
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("apollo-boost");
+module.exports = require("react-redux");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("react-apollo");
+module.exports = require("mongoose");
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+module.exports = require("apollo-boost");
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var jwt = __webpack_require__(34);
-var CryptoJS = __webpack_require__(10);
-var md5 = __webpack_require__(11);
-var bcrypt = __webpack_require__(35);
-var crypto = __webpack_require__(13);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LoginQuery = exports.addUsertMutation = exports.getPost = exports.addPostMutation = undefined;
+
+var _templateObject = _taggedTemplateLiteral(["\nmutation($title : String!,$body : String! ,$userId : String!){\n  addPost(Title:$title,Body :$body,_UserID:$userId)\n  {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n\n"], ["\nmutation($title : String!,$body : String! ,$userId : String!){\n  addPost(Title:$title,Body :$body,_UserID:$userId)\n  {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n\n"]),
+    _templateObject2 = _taggedTemplateLiteral(["\n{\n  posts {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n"], ["\n{\n  posts {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n"]),
+    _templateObject3 = _taggedTemplateLiteral(["\n  query loginQuery($email : String!,$password:String!){\n    user(email : $email,password :$password){\n      email\n      name\n    }\n  }\n"], ["\n  query loginQuery($email : String!,$password:String!){\n    user(email : $email,password :$password){\n      email\n      name\n    }\n  }\n"]);
+
+var _apolloBoost = __webpack_require__(4);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var addPostMutation = (0, _apolloBoost.gql)(_templateObject);
+var addUsertMutation = (0, _apolloBoost.gql)(_templateObject);
+var getPost = (0, _apolloBoost.gql)(_templateObject2);
+var LoginQuery = (0, _apolloBoost.gql)(_templateObject3);
+exports.addPostMutation = addPostMutation;
+exports.getPost = getPost;
+exports.addUsertMutation = addUsertMutation;
+exports.LoginQuery = LoginQuery;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var jwt = __webpack_require__(42);
+var CryptoJS = __webpack_require__(12);
+var md5 = __webpack_require__(13);
+var bcrypt = __webpack_require__(43);
+var crypto = __webpack_require__(15);
 
 //bcrypt for password
 var saltRounds = 15;
@@ -136,7 +171,13 @@ module.exports = {
 };
 
 /***/ }),
-/* 5 */
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("redux-form");
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -196,7 +237,7 @@ var PreLoadDiv = function (_React$Component) {
 exports.default = PreLoadDiv;
 
 /***/ }),
-/* 6 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -212,7 +253,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _isomorphicFetch = __webpack_require__(23);
+var _isomorphicFetch = __webpack_require__(27);
 
 var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -282,73 +323,49 @@ var DocsContent = function (_React$Component) {
 exports.default = DocsContent;
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getPost = exports.addPostMutation = undefined;
-
-var _templateObject = _taggedTemplateLiteral(["\nmutation($title : String!,$body : String! ,$userId : String!){\n  addPost(Title:$title,Body :$body,_UserID:$userId)\n  {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n\n"], ["\nmutation($title : String!,$body : String! ,$userId : String!){\n  addPost(Title:$title,Body :$body,_UserID:$userId)\n  {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n\n"]),
-    _templateObject2 = _taggedTemplateLiteral(["\n{\n  posts {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n"], ["\n{\n  posts {\n    _id\n    Title\n    Body\n    _UserID\n  }\n}\n"]);
-
-var _apolloBoost = __webpack_require__(2);
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var addPostMutation = (0, _apolloBoost.gql)(_templateObject);
-var getPost = (0, _apolloBoost.gql)(_templateObject2);
-exports.addPostMutation = addPostMutation;
-exports.getPost = getPost;
-
-/***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-core/register");
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto-js");
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto-js/md5");
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("cookie-parser");
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = require("crypto");
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var mongoose = __webpack_require__(1);
+var mongoose = __webpack_require__(3);
 var MerchantUser = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -388,13 +405,13 @@ var MerchantUser = new mongoose.Schema({
 module.exports = mongoose.model('MerchantUser', MerchantUser);
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _express = __webpack_require__(16);
+var _express = __webpack_require__(18);
 
 var _express2 = _interopRequireDefault(_express);
 
@@ -402,31 +419,31 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = __webpack_require__(17);
+var _server = __webpack_require__(19);
 
-var _App = __webpack_require__(18);
+var _App = __webpack_require__(20);
 
 var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-__webpack_require__(8);
+__webpack_require__(10);
 
 var app = (0, _express2.default)();
 app.use(_express2.default.static("."));
-var fs = __webpack_require__(26);
-var path = __webpack_require__(9);
-__webpack_require__(8);
+var fs = __webpack_require__(34);
+var path = __webpack_require__(11);
+__webpack_require__(10);
 
-var CryptoJS = __webpack_require__(10);
-var md5 = __webpack_require__(11);
-var csrf = __webpack_require__(27);
-var cookieParse = __webpack_require__(12);
-var expressControllers = __webpack_require__(28);
-var path = __webpack_require__(9);
-var bodyParser = __webpack_require__(29);
-var mongoose = __webpack_require__(1);
-var graphqlHTTP = __webpack_require__(30);
+var CryptoJS = __webpack_require__(12);
+var md5 = __webpack_require__(13);
+var csrf = __webpack_require__(35);
+var cookieParse = __webpack_require__(14);
+var expressControllers = __webpack_require__(36);
+var path = __webpack_require__(11);
+var bodyParser = __webpack_require__(37);
+var mongoose = __webpack_require__(3);
+var graphqlHTTP = __webpack_require__(38);
 
 //ReactJS components
 
@@ -434,7 +451,7 @@ var graphqlHTTP = __webpack_require__(30);
 mongoose.connect('mongodb://localhost/payment-gateway-api');
 
 //graphql schema here
-var schema = __webpack_require__(31);
+var schema = __webpack_require__(39);
 
 //Middleware
 //graphql middleware // NOTE:keep this (graphql_ ) middleware at top
@@ -458,12 +475,12 @@ app.use(cookieParse());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // User defined middleware
-var Api_Key_Middleware = __webpack_require__(38);
+var Api_Key_Middleware = __webpack_require__(46);
 
 //controller ASSIGNMENT
 //setting up the controller
 expressControllers.setDirectory(path.join(__dirname, '/controller')).bind(app);
-var merchantController = __webpack_require__(39);
+var merchantController = __webpack_require__(47);
 
 //static path
 app.use(_express2.default.static(path.join(__dirname + './public')));
@@ -488,19 +505,19 @@ var server = app.listen(5000, function () {
 });
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("express");
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dom/server");
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -516,23 +533,27 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _apolloBoost = __webpack_require__(2);
+var _apolloBoost = __webpack_require__(4);
 
 var _apolloBoost2 = _interopRequireDefault(_apolloBoost);
 
-var _reactApollo = __webpack_require__(3);
+var _reactApollo = __webpack_require__(1);
 
-var _SideBar = __webpack_require__(19);
+var _SideBar = __webpack_require__(21);
 
 var _SideBar2 = _interopRequireDefault(_SideBar);
 
-var _rightSlidePanel = __webpack_require__(20);
+var _rightSlidePanel = __webpack_require__(22);
 
 var _rightSlidePanel2 = _interopRequireDefault(_rightSlidePanel);
 
-var _center = __webpack_require__(21);
+var _center = __webpack_require__(25);
 
 var _center2 = _interopRequireDefault(_center);
+
+var _store = __webpack_require__(30);
+
+var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -568,9 +589,9 @@ var App = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "row" },
-            _react2.default.createElement(_SideBar2.default, null),
-            _react2.default.createElement(_center2.default, null),
-            _react2.default.createElement(_rightSlidePanel2.default, null)
+            _react2.default.createElement(_SideBar2.default, { store: _store2.default }),
+            _react2.default.createElement(_center2.default, { store: _store2.default }),
+            _react2.default.createElement(_rightSlidePanel2.default, { store: _store2.default })
           )
         )
       );
@@ -583,7 +604,7 @@ var App = function (_React$Component) {
 exports.default = App;
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -631,7 +652,7 @@ var SideBar = function (_React$Component) {
                         _react2.default.createElement(
                             "h2",
                             null,
-                            "Payment-Gateway"
+                            "MERN+GraphQL"
                         )
                     ),
                     _react2.default.createElement(
@@ -684,7 +705,7 @@ var SideBar = function (_React$Component) {
 exports.default = SideBar;
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -699,6 +720,16 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _RegistrationForm = __webpack_require__(23);
+
+var _RegistrationForm2 = _interopRequireDefault(_RegistrationForm);
+
+var _loginForm = __webpack_require__(24);
+
+var _loginForm2 = _interopRequireDefault(_loginForm);
+
+var _reactRedux = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -711,62 +742,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var RightSlidePanel = function (_React$Component) {
   _inherits(RightSlidePanel, _React$Component);
 
-  function RightSlidePanel() {
+  function RightSlidePanel(props) {
     _classCallCheck(this, RightSlidePanel);
 
-    return _possibleConstructorReturn(this, (RightSlidePanel.__proto__ || Object.getPrototypeOf(RightSlidePanel)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (RightSlidePanel.__proto__ || Object.getPrototypeOf(RightSlidePanel)).call(this, props));
+
+    _this.store = _this.props.store;
+    return _this;
   }
 
   _createClass(RightSlidePanel, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "section",
-        { className: "right-Bar" },
+        _reactRedux.Provider,
+        { store: this.store },
         _react2.default.createElement(
-          "div",
-          { className: "container" },
+          'section',
+          { className: 'right-Bar' },
           _react2.default.createElement(
-            "div",
-            { className: "Registration-Div" },
-            _react2.default.createElement(
-              "div",
-              { className: "right-panel-close-icon" },
-              _react2.default.createElement(
-                "span",
-                { onClick: function onClick(e) {
-                    e.preventDefault();
-                    $('.right-Bar').removeClass('open');
-                  } },
-                "\u2716"
-              )
-            ),
-            _react2.default.createElement(
-              "p",
-              null,
-              "Register Here For getting the ",
-              _react2.default.createElement(
-                "i",
-                null,
-                "Dummy"
-              ),
-              " API_KEY"
-            ),
-            _react2.default.createElement(
-              "form",
-              null,
-              _react2.default.createElement("input", { type: "text", name: "name", placeholder: "Write Name" }),
-              _react2.default.createElement("input", { type: "text", name: "email", placeholder: "Write Email" }),
-              _react2.default.createElement("input", { type: "number", name: "phone_no", placeholder: "Write Phone Number" }),
-              _react2.default.createElement("input", { type: "number", name: "account_no", placeholder: "Your Account Number" }),
-              _react2.default.createElement("input", { type: "number", name: "identification_no", placeholder: "Identification Number" }),
-              _react2.default.createElement("input", { type: "password", name: "password", placeholder: "Write Password" }),
-              _react2.default.createElement(
-                "button",
-                { type: "submit", name: "button" },
-                "Register"
-              )
-            )
+            'div',
+            { className: 'container' },
+            _react2.default.createElement(_RegistrationForm2.default, null),
+            _react2.default.createElement(_loginForm2.default, null)
           )
         )
       );
@@ -779,7 +777,7 @@ var RightSlidePanel = function (_React$Component) {
 exports.default = RightSlidePanel;
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -795,25 +793,279 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _centerHeader = __webpack_require__(22);
+var _reactRedux = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RegistrationForm = function (_React$Component) {
+  _inherits(RegistrationForm, _React$Component);
+
+  function RegistrationForm(props) {
+    _classCallCheck(this, RegistrationForm);
+
+    return _possibleConstructorReturn(this, (RegistrationForm.__proto__ || Object.getPrototypeOf(RegistrationForm)).call(this, props));
+  }
+
+  _createClass(RegistrationForm, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'Form-Div' },
+        _react2.default.createElement(
+          'div',
+          { className: 'right-panel-close-icon' },
+          _react2.default.createElement(
+            'span',
+            { onClick: function onClick(e) {
+                e.preventDefault();
+                $('.right-Bar').removeClass('open');
+              } },
+            '\u2716'
+          )
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Register Here For getting the ',
+          _react2.default.createElement(
+            'i',
+            null,
+            'Dummy'
+          ),
+          ' API_KEY'
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement('input', { type: 'text', name: 'name', placeholder: 'Write Name' }),
+          _react2.default.createElement('input', { type: 'text', name: 'email', placeholder: 'Write Email' }),
+          _react2.default.createElement('input', { type: 'number', name: 'phone_no', placeholder: 'Write Phone Number' }),
+          _react2.default.createElement('input', { type: 'number', name: 'account_no', placeholder: 'Your Account Number' }),
+          _react2.default.createElement('input', { type: 'number', name: 'identification_no', placeholder: 'Identification Number' }),
+          _react2.default.createElement('input', { type: 'password', name: 'password', placeholder: 'Write Password' }),
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', name: 'button' },
+            'Register'
+          )
+        )
+      );
+    }
+  }]);
+
+  return RegistrationForm;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loggedInUser: state.loggedInUser,
+    isReduxWorking: state.isReduxWorking
+  };
+};
+var mapDepatchToProps = function mapDepatchToProps(dispatch) {
+  return {
+    changeIsReduxWorking: function changeIsReduxWorking(answerTrueOrNot) {
+      dispatch({
+        type: "CHANGE_REDUX_WORKING_STATUS",
+        data: answerTrueOrNot
+      });
+    }
+  };
+};
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDepatchToProps)(RegistrationForm);
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(2);
+
+var _reactApollo = __webpack_require__(1);
+
+var _reduxForm = __webpack_require__(7);
+
+var _Queries = __webpack_require__(5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var renderField = function renderField(_ref) {
+  var input = _ref.input,
+      label = _ref.label,
+      type = _ref.type,
+      _ref$meta = _ref.meta,
+      touched = _ref$meta.touched,
+      error = _ref$meta.error;
+
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'label',
+      null,
+      label
+    ),
+    _react2.default.createElement('input', _extends({}, input, { placeholder: label, type: type })),
+    touched && error && _react2.default.createElement(
+      'span',
+      null,
+      error
+    )
+  );
+};
+
+var LoginForm = function (_React$Component) {
+  _inherits(LoginForm, _React$Component);
+
+  function LoginForm(props) {
+    _classCallCheck(this, LoginForm);
+
+    var _this = _possibleConstructorReturn(this, (LoginForm.__proto__ || Object.getPrototypeOf(LoginForm)).call(this, props));
+
+    _this.submit = _this.submit.bind(_this);
+
+    return _this;
+  }
+
+  _createClass(LoginForm, [{
+    key: 'submit',
+    value: async function submit(values) {
+      console.log("form submitted", this.props.LoginQuery);
+      var graphQLResponse = await this.props.LoginQuery.refetch({
+        email: values.email,
+        password: values.password
+      });
+      var storeResponse = await this.props.updateLoggedInUse(graphQLResponse.data.user);
+      console.log("store Response", storeResponse);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'Form-Div' },
+        _react2.default.createElement(
+          'p',
+          null,
+          'Login Here'
+        ),
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.props.handleSubmit(this.submit) },
+          _react2.default.createElement(_reduxForm.Field, { name: 'firstName', label: 'First Name', component: renderField, type: 'text', placeholder: 'First Name' }),
+          _react2.default.createElement(_reduxForm.Field, { name: 'email', label: 'Email Address', component: renderField, type: 'text', placeholder: 'Email' }),
+          _react2.default.createElement(_reduxForm.Field, { name: 'password', label: 'Password', component: renderField, type: 'password', placeholder: 'Password' }),
+          _react2.default.createElement(
+            'button',
+            { type: 'submit' },
+            'Submit'
+          )
+        )
+      );
+    }
+  }]);
+
+  return LoginForm;
+}(_react2.default.Component);
+
+LoginForm = (0, _reduxForm.reduxForm)({
+  form: 'Login' // a unique identifier for this form
+})(LoginForm);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loggedInUser: state.loggedInUser
+
+  };
+};
+var mapDepatchToProps = function mapDepatchToProps(dispatch) {
+  return {
+    updateLoggedInUse: function updateLoggedInUse(user) {
+      return dispatch({ type: "LOGGED_USER_UPDATE", loggedInUser: user });
+    }
+  };
+};
+
+LoginForm = (0, _reactApollo.graphql)(_Queries.LoginQuery, {
+  name: "LoginQuery",
+  options: function options(values) {
+    return {
+      variables: {
+        email: values.email,
+        password: values.password
+      }
+    };
+  }
+})(LoginForm);
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDepatchToProps)(LoginForm);
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _centerHeader = __webpack_require__(26);
 
 var _centerHeader2 = _interopRequireDefault(_centerHeader);
 
-var _preloadContent = __webpack_require__(5);
+var _preloadContent = __webpack_require__(8);
 
 var _preloadContent2 = _interopRequireDefault(_preloadContent);
 
-var _docsContent = __webpack_require__(6);
+var _docsContent = __webpack_require__(9);
 
 var _docsContent2 = _interopRequireDefault(_docsContent);
 
-var _postContent = __webpack_require__(24);
+var _postContent = __webpack_require__(28);
 
 var _postContent2 = _interopRequireDefault(_postContent);
 
-var _rightSide = __webpack_require__(25);
+var _rightSide = __webpack_require__(29);
 
 var _rightSide2 = _interopRequireDefault(_rightSide);
+
+var _reactRedux = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -832,7 +1084,7 @@ var Center = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Center.__proto__ || Object.getPrototypeOf(Center)).call(this, props));
 
     _this.state = { loading: false };
-
+    _this.store = _this.props.store;
     return _this;
   }
 
@@ -855,14 +1107,18 @@ var Center = function (_React$Component) {
     value: function render() {
 
       return _react2.default.createElement(
-        'div',
-        { className: 'center-bar nine columns ' },
+        _reactRedux.Provider,
+        { store: this.store },
         _react2.default.createElement(
           'div',
-          { className: 'row' },
-          _react2.default.createElement(_centerHeader2.default, null),
-          _react2.default.createElement(_postContent2.default, null),
-          _react2.default.createElement(_rightSide2.default, null)
+          { className: 'center-bar nine columns ' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement(_centerHeader2.default, null),
+            _react2.default.createElement(_postContent2.default, null),
+            _react2.default.createElement(_rightSide2.default, null)
+          )
         )
       );
     }
@@ -874,7 +1130,7 @@ var Center = function (_React$Component) {
 exports.default = Center;
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -944,13 +1200,13 @@ var CenterHeader = function (_React$Component) {
 exports.default = CenterHeader;
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = require("isomorphic-fetch");
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -966,19 +1222,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _apolloBoost = __webpack_require__(2);
+var _apolloBoost = __webpack_require__(4);
 
-var _reactApollo = __webpack_require__(3);
+var _reactApollo = __webpack_require__(1);
 
-var _preloadContent = __webpack_require__(5);
+var _preloadContent = __webpack_require__(8);
 
 var _preloadContent2 = _interopRequireDefault(_preloadContent);
 
-var _docsContent = __webpack_require__(6);
+var _docsContent = __webpack_require__(9);
 
 var _docsContent2 = _interopRequireDefault(_docsContent);
 
-var _Queries = __webpack_require__(7);
+var _Queries = __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1017,7 +1273,6 @@ var PostContent = function (_React$Component) {
             key: i,
             i: i,
             h1: post.Title,
-
             p: post.Body,
             a: post._id });
         });
@@ -1040,7 +1295,7 @@ var PostContent = function (_React$Component) {
 exports.default = (0, _reactApollo.graphql)(_Queries.getPost)(PostContent);
 
 /***/ }),
-/* 25 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1056,9 +1311,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactApollo = __webpack_require__(3);
+var _reactApollo = __webpack_require__(1);
 
-var _Queries = __webpack_require__(7);
+var _Queries = __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1184,45 +1439,142 @@ var RightSide = function (_React$Component) {
 exports.default = (0, _reactApollo.compose)((0, _reactApollo.graphql)(_Queries.addPostMutation, { name: "addPostMutation" }), (0, _reactApollo.graphql)(_Queries.getPost, { name: "getPost" }))(RightSide);
 
 /***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-module.exports = require("fs");
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-module.exports = require("csurf");
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-module.exports = require("express-controller");
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-module.exports = require("body-parser");
-
-/***/ }),
 /* 30 */
-/***/ (function(module, exports) {
-
-module.exports = require("express-graphql");
-
-/***/ }),
-/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var graphql = __webpack_require__(32);
-var _ = __webpack_require__(33);
-var Encryption = __webpack_require__(4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(31);
+
+var _reduxForm = __webpack_require__(7);
+
+var _reducer = __webpack_require__(32);
+
+var _reducer2 = _interopRequireDefault(_reducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rootReducer = (0, _redux.combineReducers)({
+  myReducer: _reducer2.default,
+  form: _reduxForm.reducer
+});
+var store = (0, _redux.createStore)(rootReducer);
+
+store.subscribe(function () {
+  // console.log("State Changed " , store.getState());
+});
+
+exports.default = store;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+module.exports = require("redux");
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _initialState = __webpack_require__(33);
+
+var _initialState2 = _interopRequireDefault(_initialState);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var myReducer = function myReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _initialState2.default)();
+  var Action = arguments[1];
+
+  switch (Action.type) {
+    case "LOGGED_USER_UPDATE":
+      console.log("Inside the login user reducer", Action);
+      return state;
+      break;
+    case "REGISTER_USER":
+      console.log("Inside the Register user reducer");
+      break;
+    case "CHANGE_REDUX_WORKING_STATUS":
+      console.log("CHANGE_REDUX_WORKING_STATUS");
+      return state;
+      break;
+    default:
+      return state;
+      break;
+  }
+};
+exports.default = myReducer;
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var initialState = function initialState() {
+  return {
+    loggedInUser: [],
+    isReduxWorking: false
+  };
+};
+exports.default = initialState;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+module.exports = require("csurf");
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+module.exports = require("express-controller");
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+module.exports = require("body-parser");
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+module.exports = require("express-graphql");
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var graphql = __webpack_require__(40);
+var _ = __webpack_require__(41);
+var Encryption = __webpack_require__(6);
 var GraphQLObjectType = graphql.GraphQLObjectType,
     GraphQLString = graphql.GraphQLString,
     GraphQLInt = graphql.GraphQLInt,
@@ -1230,9 +1582,9 @@ var GraphQLObjectType = graphql.GraphQLObjectType,
     GraphQLSchema = graphql.GraphQLSchema,
     GraphQLList = graphql.GraphQLList;
 
-var MerchantUser = __webpack_require__(14);
-var TransactionModel = __webpack_require__(36);
-var PostModel = __webpack_require__(37);
+var MerchantUser = __webpack_require__(16);
+var TransactionModel = __webpack_require__(44);
+var PostModel = __webpack_require__(45);
 
 var TransactionType = new GraphQLObjectType({
   name: "Transaction",
@@ -1306,11 +1658,14 @@ var RootQuery = new GraphQLObjectType({
   fields: {
     user: {
       type: UserType,
-      args: { name: { type: GraphQLString } },
+      args: {
+        email: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
       resolve: function resolve(parent, args) {
         // fetch from db here
 
-        return MerchantUser.findOne({ name: args.name }, function (err, u) {
+        return MerchantUser.findOne({ email: args.email }, function (err, u) {
           return u;
         });
       }
@@ -1406,31 +1761,31 @@ module.exports = new GraphQLSchema({
 });
 
 /***/ }),
-/* 32 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("graphql");
 
 /***/ }),
-/* 33 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = require("lodash");
 
 /***/ }),
-/* 34 */
+/* 42 */
 /***/ (function(module, exports) {
 
 module.exports = require("jsonwebtoken");
 
 /***/ }),
-/* 35 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = require("bcrypt");
 
 /***/ }),
-/* 36 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1440,7 +1795,7 @@ var _ref;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var mongoose = __webpack_require__(1);
+var mongoose = __webpack_require__(3);
 var transaction = new mongoose.Schema((_ref = {
   _id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -1465,9 +1820,6 @@ var transaction = new mongoose.Schema((_ref = {
 }), _defineProperty(_ref, '_Tid', {
   type: String,
   required: true
-}), _defineProperty(_ref, '_Mid', {
-  type: String,
-  required: true
 }), _defineProperty(_ref, 'Amount', {
   type: Number,
   required: true
@@ -1475,13 +1827,13 @@ var transaction = new mongoose.Schema((_ref = {
 module.exports = mongoose.model('transaction', transaction);
 
 /***/ }),
-/* 37 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var mongoose = __webpack_require__(1);
+var mongoose = __webpack_require__(3);
 var Post = mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -1504,25 +1856,23 @@ var Post = mongoose.Schema({
 module.exports = mongoose.model('Post', Post);
 
 /***/ }),
-/* 38 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Encryption = __webpack_require__(4);
+var Encryption = __webpack_require__(6);
 
 module.exports = {
   VerifyApi_Key: function VerifyApi_Key(req, res, next) {
-    if (!req.body.api_key) {
-      console.log("inside middleware");
+    if (!req.params.api_key) {
       res.sendStatus(403);
     }
-    var _Mid = Encryption.AESDecryption(req.body.api_key);
+    var _Mid = Encryption.AESDecryption(req.params.api_key);
     if (_Mid && _Mid.length == 8) {
       next();
     } else {
-      console.log("inside middleware length");
       res.sendStatus(403);
     }
   }
@@ -1530,16 +1880,16 @@ module.exports = {
 };
 
 /***/ }),
-/* 39 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var MerchantUser = __webpack_require__(14);
-var Encryption = __webpack_require__(4);
-var crypto = __webpack_require__(13);
-var cookieParse = __webpack_require__(12);
+var MerchantUser = __webpack_require__(16);
+var Encryption = __webpack_require__(6);
+var crypto = __webpack_require__(15);
+var cookieParse = __webpack_require__(14);
 
 module.exports = {
   register: function register(req, res) {
@@ -1552,7 +1902,6 @@ module.exports = {
     //  identification number like voter card or license number ( fake  ) -> identification_number
 
 
-    console.log(req.body.password);
     var Passwordhash = Encryption.PasswordhashBcrypt(req.body.password);
     var merchantUser = new MerchantUser();
     merchantUser.email = req.body.email;
@@ -1589,7 +1938,6 @@ module.exports = {
     var _Mid = Encryption.AESDecryption(req.params.api_key);
     MerchantUser.findOne({ _Mid: _Mid }, function (err, user) {
       if (err) {
-        console.log(err);
         res.status(403);
       } else {
         var recieverAccountNumber = user.account_Number;
@@ -1602,7 +1950,6 @@ module.exports = {
         var JWTUserDetails = Encryption.JWTEncryptToken(payload);
         console.log(JWTUserDetails);
         res.cookie("payment_Details", JWTUserDetails);
-        res.json("redirecting to ${bank} website");
       }
     });
   }
