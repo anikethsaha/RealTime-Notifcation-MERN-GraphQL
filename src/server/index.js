@@ -1,4 +1,3 @@
-
 require('babel-core/register')
 import express from "express";
 import React from "react";
