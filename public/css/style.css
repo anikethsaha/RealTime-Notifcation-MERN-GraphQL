@@ -163,6 +163,32 @@ margin: 1em 0;
     margin: 0 1em;
     font-size: 1.5em;
 }
+.side-bar-header h2{
+  font-size: 2em;
+font-weight: 600;
+
+}
+.Form-Div p{
+  font-size: 1.1em;
+    color: #44464e;
+    margin-bottom: 1rem;
+    font-weight: 600;
+
+}
+.Form-Div input{
+  padding: 1em;
+margin: 1em;
+border-radius: 0;
+border: 0;
+border-left: 2px solid;
+}
+.Form-Div button{
+  border-radius: 0;
+margin: 1em auto;
+}
+.right-Bar{
+overflow-y: auto;
+}
 .Registration-Div p{
   font-size: 1.35em;
 font-weight: 400;
