@@ -11,7 +11,7 @@ const  {
  } = graphql;
 const MerchantUser = require('../model/merchant.js');
 const TransactionModel = require('../model/Transaction.js');
-const PostModel = require('../model/post.js');
+const PostModel = require('../model/Post.js');
 
 const TransactionType = new GraphQLObjectType({
   name : "Transaction",
@@ -79,11 +79,14 @@ const RootQuery = new GraphQLObjectType({
   fields : {
     user :{
         type : UserType,
-        args : {name : { type : GraphQLString}},
+        args : {
+          email : { type : GraphQLString},
+          password : {type : GraphQLString}
+         },
         resolve(parent,args){
             // fetch from db here
 
-              return MerchantUser.findOne({name:args.name},(err,u) => {
+              return MerchantUser.findOne({email:args.email},(err,u) => {
                 return u;
               });
         }
