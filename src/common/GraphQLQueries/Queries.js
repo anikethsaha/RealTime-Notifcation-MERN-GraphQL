@@ -34,4 +34,12 @@ const getPost = gql`
   }
 }
 `;
-export {addPostMutation ,getPost};
+const LoginQuery = gql`
+  query loginQuery($email : String!,$password:String!){
+    user(email : $email,password :$password){
+      email
+      name
+    }
+  }
+`;
+export {addPostMutation ,getPost ,addUsertMutation,LoginQuery};
