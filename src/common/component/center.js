@@ -11,17 +11,6 @@ export default class Center extends React.Component{
   this.state ={ loading : false};
   this.store = this.props.store;
   }
-  componentWillMount(){
-    this.setState({  // re-renders the component everytime setState is called
-      loading:true
-    })
-
-  }
-  componentDidMount(){
-    this.setState({ // re-renders the component everytime setState is called
-      loading:false
-    })
-  }
 
   render(){
 
