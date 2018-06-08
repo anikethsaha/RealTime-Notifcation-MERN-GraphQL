@@ -6,7 +6,7 @@ app.use(express.static("."));
 const fs = require('fs');
 var path = require('path');
 require('babel-core/register');
-
+import { StaticRouter, matchPath } from "react-router-dom";
 import { renderToString } from "react-dom/server";
 var CryptoJS = require("crypto-js");
 var md5 = require("crypto-js/md5");
@@ -31,7 +31,7 @@ const schema = require('./graphqlSchema/GraphqlUserSchema.js');
 
 //Middleware
 //graphql middleware // NOTE:keep this (graphql_ ) middleware at top
-app.use('/graphqlInterface', graphqlHTTP(req => ({
+app.use('/graphql', graphqlHTTP(req => ({
  schema ,                                      // schema : schema
  graphiql:true
 })))
@@ -68,7 +68,12 @@ app.set('view engine', 'ejs');
 //routes
 app.get('/',(req,res)=>{
   var d = "helloServer";
-  var myapp = renderToString(<App data={d} />);
+  const context = {}
+  var myapp = renderToString(
+    <StaticRouter location={req.url}  context={context}  >
+      <App/>
+    </StaticRouter>
+  );
   var html = fs.readFileSync('./public/views/index.ejs');
   html = html.toString();
   html = html.replace("<!-- APP -->",myapp);
@@ -77,6 +82,5 @@ app.get('/',(req,res)=>{
 
 app.post('/merchant/register' , merchantController.register);
 app.post('/merchant/pay', Api_Key_Middleware.VerifyApi_Key , merchantController.FetchAndMakePayment);
-
 
 var server = app.listen(5000,() => console.log("server Running in port 5000"))

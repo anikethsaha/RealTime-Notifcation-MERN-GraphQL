@@ -13,8 +13,15 @@ const Post = mongoose.Schema({
    type : String,
    required : true
  },
+ Comments : {
+   type : String,
+ },
+ Likes : {
+   type : Number,
+
+ },
  _UserID : {
-   type :Number,
+   type :String,
    required : true
  }
 });

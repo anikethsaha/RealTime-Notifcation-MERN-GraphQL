@@ -30,3 +30,4 @@ const transaction = new mongoose.Schema({
      required : true,
    }
 })
+module.exports = mongoose.model('transaction',transaction);
