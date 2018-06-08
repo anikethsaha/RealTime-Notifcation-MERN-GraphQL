@@ -42,4 +42,14 @@ const LoginQuery = gql`
     }
   }
 `;
-export {addPostMutation ,getPost ,addUsertMutation,LoginQuery};
+const getFullPost = gql`
+  query postQuery($title : String!){
+    post(Title : $title){
+      Title
+      Body
+      Likes
+      Comments
+    }
+  }
+`;
+export {addPostMutation ,getPost ,addUsertMutation,LoginQuery ,getFullPost};
