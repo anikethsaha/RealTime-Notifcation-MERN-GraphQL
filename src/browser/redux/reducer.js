@@ -1,4 +1,5 @@
 import  initialState  from './initialState.js';
+import objectAssign from 'object-assign'
 const myReducer = (state = initialState(), Action) => {
   switch (Action.type) {
     case "LOGGED_USER_UPDATE":
@@ -8,9 +9,17 @@ const myReducer = (state = initialState(), Action) => {
     case "REGISTER_USER":
       console.log("Inside the Register user reducer");
       break;
-    case "CHANGE_REDUX_WORKING_STATUS":
-      console.log("CHANGE_REDUX_WORKING_STATUS");
-      return state;
+    case "UPDATED_CURRENT_POST":
+      return Object.assign({},state,{
+        currentPost : {
+          title : Action.data.Title,
+          body : Action.data.Body
+        }
+      })
+      break;
+    case "GET_CURRENT_POST":
+        console.log(state.currentPost);
+        return state.currentPost;
       break;
     default:
       return state;

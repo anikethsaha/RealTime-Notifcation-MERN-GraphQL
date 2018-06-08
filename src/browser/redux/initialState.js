@@ -1,5 +1,6 @@
 const initialState = () => ({
   loggedInUser : [],
-  isReduxWorking : false
+  isReduxWorking : false,
+  currentPost : []
 })
 export default initialState;
