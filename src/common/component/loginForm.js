@@ -7,6 +7,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => {
 
   return (
     <div>
+        
         <label>{label}</label>
         <input {...input}  placeholder={label} type={type} />
         {touched && error && <span>{error}</span>}
@@ -21,13 +22,13 @@ class LoginForm extends React.Component{
 
   }
 
-  async submit(values){
+   submit(values){
     console.log("form submitted" , this.props.LoginQuery);
-    var graphQLResponse  = await this.props.LoginQuery.refetch({
+    var graphQLResponse  =  this.props.LoginQuery.refetch({
         email :values.email,
         password : values.password
     });
-    var storeResponse = await this.props.updateLoggedInUse(graphQLResponse.data.user);
+    var storeResponse =  this.props.updateLoggedInUse(graphQLResponse.data.user);
     console.log("store Response" , storeResponse);
   }
   render(){

@@ -2,6 +2,15 @@
 var webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 var path = require('path');
+const fs = require('fs');
+var nodeModules = {};
+fs.readdirSync('node_modules')
+  .filter(function(x) {
+    return ['.bin'].indexOf(x) === -1;
+  })
+  .forEach(function(mod) {
+    nodeModules[mod] = 'commonjs ' + mod;
+  });
 BrowserConfig = {
               entry: './src/browser/index.js',
                 output: {
@@ -11,7 +20,7 @@ BrowserConfig = {
 
                 },
               module: {
-                  loaders: [
+                  rules: [
                       {
                           test: /\.js$/,
                            exclude: /(node_modules)/,
@@ -56,7 +65,7 @@ ServerConfig = {
                  })
                ],
               module: {
-                  loaders: [
+                  rules: [
                       {
                           test: /\.js$/,
 
@@ -72,28 +81,29 @@ ServerConfig = {
                 historyApiFallback: true,
               }
 };
+
 ApolloServerConfig = {
               entry: './src/ApolloServer/index.js',
               output: {
                     path: path.resolve(__dirname),
-                    filename: './apolloServer.js',
+                    filename: './subscriptionServer.js',
                     libraryTarget: "commonjs2",
                     publicPath: '/'
 
                 },
                 node: {
-                    __dirname: false
+                    __dirname: false,
+
                 },
               target: 'node',
-
-              externals: [nodeExternals()],
+              externals:[nodeExternals()],
               plugins: [
                  new webpack.DefinePlugin({
                    __isBrowser__: "false"
                  })
                ],
               module: {
-                  loaders: [
+                  rules: [
                       {
                           test: /\.js$/,
 
@@ -109,4 +119,4 @@ ApolloServerConfig = {
                 historyApiFallback: true,
               }
 };
-module.exports = [ BrowserConfig , ServerConfig ,ApolloServerConfig];
+module.exports = [ BrowserConfig , ServerConfig , ApolloServerConfig];

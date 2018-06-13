@@ -3,11 +3,11 @@ import objectAssign from 'object-assign'
 const myReducer = (state = initialState(), Action) => {
   switch (Action.type) {
     case "LOGGED_USER_UPDATE":
-      console.log("Inside the login user reducer" , Action);
+
       return state;
       break;
     case "REGISTER_USER":
-      console.log("Inside the Register user reducer");
+
       break;
     case "UPDATED_CURRENT_POST":
       return Object.assign({},state,{
@@ -18,8 +18,18 @@ const myReducer = (state = initialState(), Action) => {
       })
       break;
     case "GET_CURRENT_POST":
-        console.log(state.currentPost);
+
         return state.currentPost;
+      break;
+    case "ADD_SOCKET_IO":
+      console.log("Inisde of the Add socket reducer" , Action.data);
+      return Object.assign({},state,{
+        io : Action.data
+      })
+      break;
+    case "GET_SOCKET_IO":
+    console.log("get socekt",state.io);
+        return state.io;
       break;
     default:
       return state;

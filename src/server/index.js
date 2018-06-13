@@ -6,8 +6,9 @@ app.use(express.static("."));
 const fs = require('fs');
 var path = require('path');
 require('babel-core/register');
-import { StaticRouter, matchPath } from "react-router-dom";
-import { renderToString } from "react-dom/server";
+import { StaticRouter, matchPath } from "react-router-dom"
+import { renderToString } from "react-dom/server"
+
 var CryptoJS = require("crypto-js");
 var md5 = require("crypto-js/md5");
 var csrf = require('csurf');
@@ -16,9 +17,7 @@ var expressControllers = require('express-controller');
 var path = require('path');
 var bodyParser= require('body-parser');
 const mongoose = require('mongoose');
-const graphqlHTTP = require('express-graphql');
-
-
+const cors = require('cors');
 //ReactJS components
 import App from "../common/component/App.js";
 //database connection
@@ -30,24 +29,9 @@ const schema = require('./graphqlSchema/GraphqlUserSchema.js');
 
 
 //Middleware
-//graphql middleware // NOTE:keep this (graphql_ ) middleware at top
-app.use('/graphql', graphqlHTTP(req => ({
- schema ,                                      // schema : schema
- graphiql:true
-})))
 app.use(cookieParse());
-// var sessionSecrect = bcrypt.hashSync('Your_Secret_key',7); // not writing cause this key should be known by the bank website gateway too
-// app.use(session({
-//   // secret : sessionSecrect,
-//   resave : false,
-//   saveUninitialized : true,
-//    signed: true,
-//   // store : true,
-//
-//
-// }))
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
-
 // User defined middleware
 const Api_Key_Middleware = require('./Middleware/apiKeyVerify.js');
 
@@ -64,15 +48,14 @@ app.set('views' , path.join(__dirname,'./public/views'));
 app.set('view engine', 'ejs');
 
 
-
 //routes
 app.get('/',(req,res)=>{
   var d = "helloServer";
   const context = {}
   var myapp = renderToString(
-    <StaticRouter location={req.url}  context={context}  >
-      <App/>
-    </StaticRouter>
+        <StaticRouter location={req.url}  context={context}  >
+          <App/>
+        </StaticRouter>
   );
   var html = fs.readFileSync('./public/views/index.ejs');
   html = html.toString();
@@ -83,4 +66,4 @@ app.get('/',(req,res)=>{
 app.post('/merchant/register' , merchantController.register);
 app.post('/merchant/pay', Api_Key_Middleware.VerifyApi_Key , merchantController.FetchAndMakePayment);
 
-var server = app.listen(5000,() => console.log("server Running in port 5000"))
+var server = app.listen(5000,() => console.log("> NODE SERVER RUNNING 5000"))

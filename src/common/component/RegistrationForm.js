@@ -1,9 +1,38 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
+import { registerUser } from '../GraphQLQueries/Queries.js'
+import { graphql ,compose} from 'react-apollo';
+const renderField = ({ input, label, type, meta: { touched, error } }) => {
+  return (
+    <div>
+        
+        <label>{label}</label>
+        <input {...input}  placeholder={label} type={type} />
+        {touched && error && <span>{error}</span>}
+    </div>
+  )
+}
+
 class RegistrationForm extends React.Component{
   constructor(props){
     super(props);
-
+      console.log("register",props);
+    this.registerSubmit = this.registerSubmit.bind(this);
+  }
+   registerSubmit(values){
+        const response = this.props.registerUser({
+            variables : 
+            {
+               email : values.email,
+               name : values.name,
+               password : values.password,
+               phone_no : values.phone_no,
+               identification_number : values.identification_no,
+               account_Number : values.account_no               
+            }
+        })
+        console.log("response",response);
   }
   render(){
     return (
@@ -14,14 +43,50 @@ class RegistrationForm extends React.Component{
                 $('.right-Bar').removeClass('open');
               }}>&#10006;</span>
             </div>
-            <p>Register Here For getting the <i>Dummy</i> API_KEY</p>
-            <form >
-              <input type="text" name="name" placeholder="Write Name" />
-              <input type="text" name="email" placeholder="Write Email"/>
-              <input type="number" name="phone_no" placeholder="Write Phone Number"/>
-              <input type="number" name="account_no" placeholder="Your Account Number"/>
-              <input type="number" name="identification_no" placeholder="Identification Number"/>
-              <input type="password" name="password" placeholder="Write Password"/>
+            <p>Register Here </p>
+            <form onSubmit={this.props.handleSubmit(this.registerSubmit)}>
+              <Field 
+                name="name" 
+                label="name"
+                component={renderField}
+                type="text" 
+                placeholder=" Name"
+              /> 
+              <Field 
+                name="email" 
+                label="email"
+                component={renderField}
+                type="email" 
+                placeholder=" Write Email"
+              />  
+             <Field 
+                name="phone_no" 
+                label="Write Phone Number"
+                component={renderField}
+                type="number" 
+                placeholder=" Write Phone Number"
+              />   
+             <Field 
+                name="account_no" 
+                label="Your Account Number"
+                component={renderField}
+                type="number" 
+                placeholder=" Your Account Number"
+              /> 
+              <Field 
+                name="identification_no" 
+                label="Identification Number"
+                component={renderField}
+                type="number" 
+                placeholder="Identification Number"
+              /> 
+              <Field 
+                name="password" 
+                label="Write Password"
+                component={renderField}
+                type="password" 
+                placeholder="Write Password"
+              />
               <button type="submit" name="button">Register</button>
             </form>
       </div>
@@ -29,6 +94,9 @@ class RegistrationForm extends React.Component{
 
   }
 }
+RegistrationForm =  reduxForm({
+  form: 'RegistrationForm' // a unique identifier for this form
+})(RegistrationForm);
 const mapStateToProps = state => {
   return {
       loggedInUser : state.loggedInUser,
@@ -46,6 +114,11 @@ const mapDepatchToProps = dispatch =>{
     }
   }
 }
+
+RegistrationForm = graphql(registerUser,{
+    name : "registerUser"
+})(RegistrationForm);
+
 export default connect(
   mapStateToProps,
   mapDepatchToProps

@@ -4,7 +4,7 @@ import { addPostMutation , getPost }  from '../GraphQLQueries/Queries.js'
 class RightSide extends React.Component{
   constructor(props){
     super(props);
-    console.log(this.props);
+
     this.state = {
       title : "",
       body : "",
@@ -24,7 +24,7 @@ class RightSide extends React.Component{
   }
   SendPostDateToGraph(e){
     e.preventDefault();
-    console.log(this.state);
+
     this.props.addPostMutation({
       variables : {
         title : this.state.title,
@@ -45,7 +45,7 @@ class RightSide extends React.Component{
                     <label for="">Title</label>
                     <textarea name="name" onChange={(e) =>{
                       e.preventDefault();
-                      console.log(e);
+
                       this.setState({
                         title : e.target.value
                       })
@@ -55,7 +55,7 @@ class RightSide extends React.Component{
                     <label for="">Body</label>
                     <textarea name="name" rows="8" cols="80"  onChange={(e) =>{
                       e.preventDefault();
-                      console.log(e);
+
                       this.setState({
                         body : e.target.value
                       })

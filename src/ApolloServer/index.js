@@ -1,23 +1,22 @@
 require('babel-core/register')
 import express from "express";
-import React from "react";
-var app = express();
-app.use(express.static("."));
-const fs = require('fs');
+import { createServer } from 'http';
+
+
 var path = require('path');
 require('babel-core/register');
-import { StaticRouter, matchPath } from "react-router-dom";
-import { renderToString } from "react-dom/server";
 const { graphqlExpress ,graphiqlExpress } = require('apollo-server-express');
 var CryptoJS = require("crypto-js");
 var md5 = require("crypto-js/md5");
 var csrf = require('csurf');
 var cookieParse = require('cookie-parser');
-var expressControllers = require('express-controller');
-var path = require('path');
 var bodyParser= require('body-parser');
 const mongoose = require('mongoose');
-
+const cors = require('cors');
+import { execute, subscribe } from 'graphql';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+var app = express();
+// var socketIOServerInstance = createServer(app);
 
 
 //ReactJS components
@@ -26,47 +25,47 @@ import App from "../common/component/App.js";
 mongoose.connect('mongodb://localhost/payment-gateway-api');
 
 
+app.use(express.static("."));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
+//middleware
+app.use(cors());
 const schema = require('.././ApolloServer/apolloServerSchema');
 // bodyParser is needed just for POST.
+
+
+
 app.use('/graphql', graphqlExpress({ schema }));
 
 app.use('/graphiql',graphiqlExpress({
-  endpointURL : "/graphql"
+  endpointURL : "/graphql",
+  subscriptionsEndpoint: `ws://localhost:3000/subscriptions`
 }))
 
+const GraphQLWebSocketServerInstance = createServer(app);
+var server = GraphQLWebSocketServerInstance.listen(3000,() => {
+  console.log("> APOLLO SUBSCRIPTION SERVER RUNNING ON PORT 3000");
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema,
+     onSubscribe: (message, params, webSocket) => {
+       console.log("onSubscribe");
+     },
+     onConnect: (connectionParams, webSocket, context) => {
 
-
-
-app.use(cookieParse());
-
-
-
-
-//controller ASSIGNMENT
-
-//static path
-app.use(express.static(path.join(__dirname+'./public')));
-app.set('views' , path.join(__dirname,'./public/views'));
-app.set('view engine', 'ejs');
-
-
-
-//routes
-app.get('/',(req,res)=>{
-  var d = "helloServer";
-  const context = {}
-  var myapp = renderToString(
-    <StaticRouter location={req.url}  context={context}  >
-      <App/>
-    </StaticRouter>
-  );
-  var html = fs.readFileSync('./public/views/index.ejs');
-  html = html.toString();
-  html = html.replace("<!-- APP -->",myapp);
-  res.send(html);
+  },
+  },
+  {
+    server: GraphQLWebSocketServerInstance,
+    path: '/subscriptions',
+});
+});
+var io = require('socket.io')(server);
+io.on('connection', client => {
+  console.log("> WEB-SOCKET RUNNING" , client.id);
+  client.on("NEW_LIKE_CREATED",likeData => {
+    
+    io.emit("NEW_NOTIFICATION" , likeData);
+  })
 })
-
-var server = app.listen(3000,() => console.log("server Running in port 3000"))

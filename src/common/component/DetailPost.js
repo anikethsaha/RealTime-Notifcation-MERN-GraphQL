@@ -15,12 +15,13 @@ class DetailPost extends React.Component{
     this.getPostData = this.getPostData.bind(this);
     this.postLoaded = this.postLoaded.bind(this);
     this.postNotLoad = this.postNotLoad.bind(this);
+
   }
   getPostData(){
     this.props.getFullPost.refetch({
         title : this.props.match.params.title
       }).then(response => {
-        console.log("response", response);
+
         this.setState({
           Title : response.data.post.Title,
           Body : response.data.post.Body,
@@ -29,6 +30,7 @@ class DetailPost extends React.Component{
         })
       })
   }
+
   async componentWillMount(){
     await this.getPostData();
   }
@@ -101,15 +103,18 @@ class DetailPost extends React.Component{
         )
       }
 }
-const mapStateToProps = (state) =>(
-  {
-      currentPost : state.currentPost
-  }
-)
+const mapStateToProps = (state) => {
+    return {
+      currentPost : state.currentPost,
+      io : state.io
+   }
+ }
+
 const mapDepatchToProps = (dispatch) => {
   return {
     updateCurrentPost : (_post) => dispatch({type : "UPDATED_CURRENT_POST",data : _post}),
-    getCurrentPost : () => dispatch({type : "GET_CURRENT_POST"})
+    getCurrentPost : () => dispatch({type : "GET_CURRENT_POST"}),
+    getSocketIo : () => dispatch({type : "GET_SOCKET_IO"})
   }
 }
 

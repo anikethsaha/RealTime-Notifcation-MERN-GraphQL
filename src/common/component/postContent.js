@@ -17,17 +17,14 @@ import {
      this.displayPost = this.displayPost.bind(this);
 
    }
-   componentDidMount(){
-     console.log("post", this.props.data);
-   }
   displayPost(){
 
     var data = this.props.data;
-    console.log("data",data);
+
     if(data.loading){
         return ( <div><PreLoadDiv /></div> );
     } else {
-      console.log("data2" ,data);
+
         return data.posts.map((post,i) => {
             return(
                 <DocsContent

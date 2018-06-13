@@ -5,8 +5,15 @@ const typeDefs = `
     Body :String!,
     _UserID :String!,
     Comments : String!,
-    Likes : Int!,
+    likesCount : Int!
+    Likes : like,
     author : user
+  }
+  type like{
+    _id : String!,
+    _PostId : String!,
+    _RecieverId :String!,
+    _SenderId :String!
   }
   type user{
     _id : String!,
@@ -17,14 +24,16 @@ const typeDefs = `
     phone_no:Int!,
     identification_number:Int!,
     _Mid :String!,
+    JWTtoken : String!
     postDetails : [post]
   }
   type Query{
     posts : [post],
     localposts : [post],
+    post(Title : String!) : post
     localpost(id:Int!) : post,
     users : [user],
-    loginUser(email : String! ,password : String!) : user,
+    loginUser(email : String! ,password : String!) : user!,
     author : user,
     postDetails : [post]
   }
@@ -37,7 +46,15 @@ const typeDefs = `
       account_Number : Int!,
       phone_no:Int!,
       identification_number:Int!
-    ) : user!
+    ) : user!,
+    createLike(
+      _PostId : String!,
+      _RecieverId :String!,
+      _SenderId :String!
+    ) : like!
+  }
+  type Subscription{
+    likeAddedSubscription : like!
   }
 
 `;

@@ -1,6 +1,7 @@
 import React from "react"
 export default class SideBar extends React.Component{
   render(){
+
     return (
       <div className="sideBar three columns">
           <div className="container">

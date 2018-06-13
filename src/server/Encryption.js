@@ -35,7 +35,18 @@ module.exports = {
     var plaintext = bytes.toString(CryptoJS.enc.Utf8);
     return plaintext;
   },
-  JWTEncryptToken : (payload) =>{
-    return jwt.sign(payload,AESEncryption());
+  JWTEncryptToken :  (payload) =>{
+    return  jwt.sign(payload,AESEncryptionKey());
+  },
+  PasswordVerification :  (passwordToVerify , hashedPassword) => {
+   
+      return  bcrypt.compare(passwordToVerify , hashedPassword , (err,result) => {
+          if(err){
+              
+              return false;
+          }
+         
+          return result;//true
+      })
   }
 };
