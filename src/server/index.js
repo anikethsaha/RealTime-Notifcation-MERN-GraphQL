@@ -1,11 +1,12 @@
 require('babel-core/register')
+
 import express from "express";
 import React from "react";
 var app = express();
 app.use(express.static("."));
 const fs = require('fs');
 var path = require('path');
-require('babel-core/register');
+
 import { StaticRouter, matchPath } from "react-router-dom"
 import { renderToString } from "react-dom/server"
 
@@ -24,6 +25,7 @@ import App from "../common/component/App.js";
 mongoose.connect('mongodb://localhost/payment-gateway-api');
 
 
+
 //graphql schema here
 const schema = require('./graphqlSchema/GraphqlUserSchema.js');
 
@@ -33,14 +35,14 @@ app.use(cookieParse());
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 // User defined middleware
-const Api_Key_Middleware = require('./Middleware/apiKeyVerify.js');
+// const Api_Key_Middleware = require('./Middleware/apiKeyVerify.js');
 
 
 
 //controller ASSIGNMENT
 //setting up the controller
 expressControllers.setDirectory(path.join(__dirname,'/controller')).bind(app);
-const merchantController = require('./controller/merchantController');
+// const merchantController = require('./controller/merchantController');
 
 //static path
 app.use(express.static(path.join(__dirname+'./public')));
@@ -63,7 +65,7 @@ app.get('/',(req,res)=>{
   res.send(html);
 })
 
-app.post('/merchant/register' , merchantController.register);
-app.post('/merchant/pay', Api_Key_Middleware.VerifyApi_Key , merchantController.FetchAndMakePayment);
+// app.post('/merchant/register' , merchantController.register);
+// app.post('/merchant/pay', Api_Key_Middleware.VerifyApi_Key , merchantController.FetchAndMakePayment);
 
 var server = app.listen(5000,() => console.log("> NODE SERVER RUNNING 5000"))

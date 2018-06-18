@@ -1,11 +1,12 @@
 const PostModel = require('../.././server/model/Post.js');
 const MerchantUser = require('../.././server/model/merchant.js');
 const LikeModel = require('../.././server/model/Likes.js');
+const objectAssign = require('object-assign');
 const {
     find,
     filter
 } = require('lodash');
-const Encryption = require('../.././server/Encryption.js');
+const Encryption = require('../.././common/Encryption.js');
 // import {pubsub } from '../pubsub.js'
 import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
@@ -29,37 +30,37 @@ const resolver = {
         posts: () => PostModel.find((err, post) => post),
         users: () => MerchantUser.find((err, user) => user),
         loginUser:  (root, args) => {
-            //Login Logic here
 
-             MerchantUser.find({
+            return MerchantUser.findOne({
                 email: args.email
-            },  (err, user) => {
-
-                if (err) {
+            },(err,user) => {
+                if(err)
+                throw new Error(JSON.stringify({
+                                    status: "ERROR",
+                                    typeErrorMsg: "Email address not present",
+                                    err
+                                }));
+                Encryption.PasswordVerification(args.password, user.password).then(isVerifiedPassword => {
+                    console.log('isVerifiedPassword :', isVerifiedPassword);
+                    if(!isVerifiedPassword)
                      throw new Error(JSON.stringify({
-                            status: "ERROR",
-                            typeErrorMsg: "Email address not present",
-                            err
-                        }));
-               
-                } else {
+                                    status: "ERROR",
+                                    typeErrorMsg: "Password Not match",
+                                    err
+                                }));
+                    let JWTtoken =  Encryption.JWTEncryptToken({
+                                    _id: user._id,
+                                    email: user.email
+                                });
 
-                    let isVerifiedPassword = Encryption.PasswordVerification(args.password, user[0].password);
-                    if (!isVerifiedPassword) {
-                        throw new Error(JSON.stringify({
-                            status: "ERROR",
-                            typeErrorMsg: "Password not matched",
-                            err
-                        }));
-                      
-                    }
-                   
-                      user.JWTtoken =  Encryption.JWTEncryptToken({
-                        _id: user._id,
-                        email: user.email
-                    });
-                    return user;
-                }
+                   return {
+                       JWTtoken,
+                       name : user.name,
+                       email : user.email
+                   }
+
+                })
+
             })
 
 
@@ -84,13 +85,12 @@ const resolver = {
             postModel.Title = args.Title;
             postModel.Body = args.Body;
             postModel._UserID = args._UserID;
+            postModel.likesCount = 0;
+            postModel.comments = "";
             return  postModel.save();
         },
-
-
         registerUser:  (root, args) => {
             // registration here
-
             var Passwordhash = Encryption.PasswordhashBcrypt(args.password);
             var merchantUser = new MerchantUser();
             merchantUser.email = args.email;
@@ -98,32 +98,20 @@ const resolver = {
             merchantUser.password = Passwordhash;
             merchantUser.account_Number = args.account_Number;
             merchantUser.phone_no = args.phone_no;
-            merchantUser._Mid = crypto.randomBytes(4).toString('hex');
             merchantUser.identification_number = args.identification_number;
-            merchantUser.save((err, user) => {
-                if (err) {
-                    throw new Error(JSON.stringify({
-                        status: "ERROR",
-                        err
-                    }));
-                } else {
-                         
-                      user.JWTtoken =  Encryption.JWTEncryptToken({
-                        _id: user._id,
-                        email: user.email
-                    });
-                    return user;
+            const user =  merchantUser.save();
+            console.log('user :', user);
+            let JWTtoken =  Encryption.JWTEncryptToken({
+                _id: user._id,
+                email: user.email
+            });
+            return new Promise((resolve,reject)=> {
+
+                const response  = {
+                    JWTtoken
                 }
-
+                return resolve(response);
             })
-
-
-
-
-
-
-
-
         },
         createLike:  (root, args) => {
             console.log("Like Mutation");

@@ -24,7 +24,7 @@ const typeDefs = `
     phone_no:Int!,
     identification_number:Int!,
     _Mid :String!,
-    JWTtoken : String!
+    JWTtoken : String!,
     postDetails : [post]
   }
   type Query{
@@ -34,7 +34,7 @@ const typeDefs = `
     localpost(id:Int!) : post,
     users : [user],
     loginUser(email : String! ,password : String!) : user!,
-    author : user,
+    author : [user],
     postDetails : [post]
   }
   type Mutation{

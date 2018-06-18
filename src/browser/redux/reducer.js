@@ -1,5 +1,6 @@
 import  initialState  from './initialState.js';
 import objectAssign from 'object-assign'
+
 const myReducer = (state = initialState(), Action) => {
   switch (Action.type) {
     case "LOGGED_USER_UPDATE":
@@ -10,7 +11,7 @@ const myReducer = (state = initialState(), Action) => {
 
       break;
     case "UPDATED_CURRENT_POST":
-      return Object.assign({},state,{
+      return Object.assign(state,{
         currentPost : {
           title : Action.data.Title,
           body : Action.data.Body
@@ -23,7 +24,7 @@ const myReducer = (state = initialState(), Action) => {
       break;
     case "ADD_SOCKET_IO":
       console.log("Inisde of the Add socket reducer" , Action.data);
-      return Object.assign({},state,{
+      return Object.assign(state,{
         io : Action.data
       })
       break;

@@ -18,9 +18,6 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 var app = express();
 // var socketIOServerInstance = createServer(app);
 
-
-//ReactJS components
-import App from "../common/component/App.js";
 //database connection
 mongoose.connect('mongodb://localhost/payment-gateway-api');
 
@@ -65,7 +62,7 @@ var io = require('socket.io')(server);
 io.on('connection', client => {
   console.log("> WEB-SOCKET RUNNING" , client.id);
   client.on("NEW_LIKE_CREATED",likeData => {
-    
+
     io.emit("NEW_NOTIFICATION" , likeData);
   })
 })

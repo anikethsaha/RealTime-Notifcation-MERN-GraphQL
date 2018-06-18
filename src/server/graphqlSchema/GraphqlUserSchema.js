@@ -1,6 +1,6 @@
 const graphql = require('graphql');
 var _ = require('lodash');
-var Encryption  = require('../Encryption.js');
+var Encryption  = require('../.././common/Encryption.js');
 const  {
   GraphQLObjectType,
   GraphQLString,
