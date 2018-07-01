@@ -1,13 +1,12 @@
 var jwt = require('jsonwebtoken');
 var CryptoJS = require("crypto-js");
 var md5 = require("crypto-js/md5");
-var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 
 
-//bcrypt for password
-var saltRounds = 15;
-var salt = bcrypt.genSaltSync(saltRounds);
+// //bcrypt for password
+// var saltRounds = 15;
+// var salt = bcrypt.genSaltSync(saltRounds);
 
 
 //AES for api key
@@ -24,7 +23,9 @@ module.exports = {
     return crypto.randomBytes(bits).toString('hex');
   },
   PasswordhashBcrypt : (passwordToHash) => {
-    return bcrypt.hashSync(passwordToHash, salt);
+
+    return CryptoJS.AES.encrypt(passwordToHash, AESEncryptionKey());
+
   },
   AESEncryption : (data) => {
     var ciphertext = CryptoJS.AES.encrypt(data, AESEncryptionKey());
@@ -37,6 +38,9 @@ module.exports = {
   },
   JWTEncryptToken :  (payload) =>{
     return  jwt.sign(payload,AESEncryptionKey());
+  },
+  JWTDecryption : async (payload ) => {
+    return await jwt.verify(payload, AESEncryptionKey());
   },
   PasswordVerification :  (passwordToVerify , hashedPassword) => {
 

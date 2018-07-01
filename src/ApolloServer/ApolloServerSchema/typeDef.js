@@ -23,9 +23,16 @@ const typeDefs = `
     account_Number : Int!,
     phone_no:Int!,
     identification_number:Int!,
-    _Mid :String!,
     JWTtoken : String!,
     postDetails : [post]
+  }
+  type notification{
+    _id : String!,
+    _userID : String!,
+    type : String!,
+    message : String!,
+    isSeen : Boolean!,
+    metaData:Int,
   }
   type Query{
     posts : [post],
@@ -35,8 +42,11 @@ const typeDefs = `
     users : [user],
     loginUser(email : String! ,password : String!) : user!,
     author : [user],
-    postDetails : [post]
+    postDetails : [post],
+    checkNotification(_userID : String!) : [notification]!,
+    allNotification : [notification]!
   }
+
   type Mutation{
     addPost(title : String!,body:String!,_UserID : String!) : post,
     registerUser(

@@ -3,11 +3,12 @@ import {connect} from 'react-redux'
 import { graphql ,compose} from 'react-apollo';
 import { Field, reduxForm } from 'redux-form'
 import { LoginQuery ,getPost }  from '../GraphQLQueries/Queries.js'
+import { JWTEncryptToken } from '../Encryption'
 const renderField = ({ input, label, type, meta: { touched, error } }) => {
 
   return (
     <div>
-        
+
         <label>{label}</label>
         <input {...input}  placeholder={label} type={type} />
         {touched && error && <span>{error}</span>}
@@ -24,19 +25,27 @@ class LoginForm extends React.Component{
 
    submit(values){
     console.log("form submitted" , this.props.LoginQuery);
-    var graphQLResponse  =  this.props.LoginQuery.refetch({
-        email :values.email,
-        password : values.password
+     this.props.LoginQuery.refetch({
+          email :values.email,
+          password : values.password
+    }).then(async (res) => {
+      const jwttoken = await JWTEncryptToken({
+        _id : res.data.loginUser._id,
+        email : res.data.loginUser.email
+      })
+      localStorage.setItem('token',jwttoken);
+      var storeResponse =  this.props.updateLoggedInUse(res.data.loginUser);
+      console.log("store Response" , storeResponse);
+      $('.Form-Div form').hide();
+      this.setState();
     });
-    var storeResponse =  this.props.updateLoggedInUse(graphQLResponse.data.user);
-    console.log("store Response" , storeResponse);
+    //
   }
   render(){
     return (
       <div className="Form-Div">
         <p>Login Here</p>
        <form onSubmit={this.props.handleSubmit(this.submit)}>
-             <Field name="firstName" label="First Name"  component={renderField} type="text"  placeholder="First Name" />
              <Field name="email" label="Email Address" component={renderField} type="text" placeholder="Email" />
              <Field name="password" label="Password" component={renderField} type="password"   placeholder="Password" />
            <button type="submit" >

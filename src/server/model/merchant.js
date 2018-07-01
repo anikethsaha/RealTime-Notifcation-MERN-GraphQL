@@ -9,10 +9,7 @@ var MerchantUser = new mongoose.Schema({
    type : String,
    required:true,
  },
- _Mid : {
-   type : String,
-   required:true,
- },
+
  password : {
    type : String,
    required:true,

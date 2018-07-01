@@ -23,13 +23,13 @@ const myReducer = (state = initialState(), Action) => {
         return state.currentPost;
       break;
     case "ADD_SOCKET_IO":
-      console.log("Inisde of the Add socket reducer" , Action.data);
+      console.log("Inisde of the Add socket reducer"  );
       return Object.assign(state,{
         io : Action.data
       })
       break;
     case "GET_SOCKET_IO":
-    console.log("get socekt",state.io);
+    console.log("get socekt");
         return state.io;
       break;
     default:

@@ -6,7 +6,7 @@ import { graphql ,compose} from 'react-apollo';
 const renderField = ({ input, label, type, meta: { touched, error } }) => {
   return (
     <div>
-        
+
         <label>{label}</label>
         <input {...input}  placeholder={label} type={type} />
         {touched && error && <span>{error}</span>}
@@ -22,17 +22,22 @@ class RegistrationForm extends React.Component{
   }
    registerSubmit(values){
         const response = this.props.registerUser({
-            variables : 
+            variables :
             {
                email : values.email,
                name : values.name,
                password : values.password,
                phone_no : values.phone_no,
                identification_number : values.identification_no,
-               account_Number : values.account_no               
+               account_Number : values.account_no
             }
+        }).then(async (response) => {
+          window.response = response;
+          const {JWTtoken} = response.data.registerUser;
+          await localStorage.setItem('token',JWTtoken);
+          console.log('response :', response);
         })
-        console.log("response",response);
+
   }
   render(){
     return (
@@ -45,46 +50,46 @@ class RegistrationForm extends React.Component{
             </div>
             <p>Register Here </p>
             <form onSubmit={this.props.handleSubmit(this.registerSubmit)}>
-              <Field 
-                name="name" 
+              <Field
+                name="name"
                 label="name"
                 component={renderField}
-                type="text" 
+                type="text"
                 placeholder=" Name"
-              /> 
-              <Field 
-                name="email" 
+              />
+              <Field
+                name="email"
                 label="email"
                 component={renderField}
-                type="email" 
+                type="email"
                 placeholder=" Write Email"
-              />  
-             <Field 
-                name="phone_no" 
+              />
+             <Field
+                name="phone_no"
                 label="Write Phone Number"
                 component={renderField}
-                type="number" 
+                type="number"
                 placeholder=" Write Phone Number"
-              />   
-             <Field 
-                name="account_no" 
+              />
+             <Field
+                name="account_no"
                 label="Your Account Number"
                 component={renderField}
-                type="number" 
+                type="number"
                 placeholder=" Your Account Number"
-              /> 
-              <Field 
-                name="identification_no" 
+              />
+              <Field
+                name="identification_no"
                 label="Identification Number"
                 component={renderField}
-                type="number" 
+                type="number"
                 placeholder="Identification Number"
-              /> 
-              <Field 
-                name="password" 
+              />
+              <Field
+                name="password"
                 label="Write Password"
                 component={renderField}
-                type="password" 
+                type="password"
                 placeholder="Write Password"
               />
               <button type="submit" name="button">Register</button>

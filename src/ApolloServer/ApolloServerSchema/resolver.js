@@ -1,18 +1,20 @@
-const PostModel = require('../.././server/model/Post.js');
-const MerchantUser = require('../.././server/model/merchant.js');
-const LikeModel = require('../.././server/model/Likes.js');
-const objectAssign = require('object-assign');
+const PostModel = require('../.././server/model/Post.js') // eslint-disable-lin
+const MerchantUser = require('../.././server/model/merchant.js')
+const LikeModel = require('../.././server/model/Likes.js')
+const NotifcationModel = require('../../server/model/notification')
+const objectAssign = require('object-assign')
 const {
     find,
     filter
-} = require('lodash');
-const Encryption = require('../.././common/Encryption.js');
+} = require('lodash')
+const Encryption = require('../.././common/Encryption.js')
 // import {pubsub } from '../pubsub.js'
-import io from 'socket.io-client';
-const socket = io('http://localhost:3000');
-console.log("socket from resolver", socket);
-var crypto = require('crypto');
-var cookieParse = require('cookie-parser');
+import io from 'socket.io-client'
+import { CLIENT_RENEG_WINDOW } from 'tls'
+const socket = io('http://localhost:3000')
+// console.log("socket from resolver", socket)
+var crypto = require('crypto')
+var cookieParse = require('cookie-parser')
 
 const resolver = {
     Subscription: {
@@ -30,46 +32,36 @@ const resolver = {
         posts: () => PostModel.find((err, post) => post),
         users: () => MerchantUser.find((err, user) => user),
         loginUser:  (root, args) => {
-
             return MerchantUser.findOne({
                 email: args.email
             },(err,user) => {
-                if(err)
-                throw new Error(JSON.stringify({
-                                    status: "ERROR",
-                                    typeErrorMsg: "Email address not present",
-                                    err
-                                }));
-                Encryption.PasswordVerification(args.password, user.password).then(isVerifiedPassword => {
-                    console.log('isVerifiedPassword :', isVerifiedPassword);
-                    if(!isVerifiedPassword)
-                     throw new Error(JSON.stringify({
-                                    status: "ERROR",
-                                    typeErrorMsg: "Password Not match",
-                                    err
-                                }));
-                    let JWTtoken =  Encryption.JWTEncryptToken({
-                                    _id: user._id,
-                                    email: user.email
-                                });
-
-                   return {
-                       JWTtoken,
-                       name : user.name,
-                       email : user.email
-                   }
-
-                })
-
+                return user;
             })
-
-
         },
         post: (root, args) => {
             return PostModel.findOne({
                 Title: args.Title
             }, (err, p) => {
                 return p;
+            });
+        },
+        allNotification : (root,args) => NotifcationModel.find().exec(),
+        checkNotification : (root,args)=> {
+            console.log('args :', args);
+            return NotifcationModel.find({
+                _userID : args._userID,
+                isSeen : false
+            },(err,res) => {
+                if(err){
+                    console.log('err  from resovler:', err);
+                }else{
+                    console.log("from resovler response of notifitcation",res)
+                    if(res.length > 0){
+                       return res;
+                    }else{
+                        return {};
+                    }
+                }
             });
         },
         author: (root, args) => MerchantUser.find().exec(),
@@ -99,21 +91,22 @@ const resolver = {
             merchantUser.account_Number = args.account_Number;
             merchantUser.phone_no = args.phone_no;
             merchantUser.identification_number = args.identification_number;
-            const user =  merchantUser.save();
-            console.log('user :', user);
-            let JWTtoken =  Encryption.JWTEncryptToken({
-                _id: user._id,
-                email: user.email
-            });
-            return new Promise((resolve,reject)=> {
-
-                const response  = {
+            return merchantUser.save().then(user => {
+                console.log('user :', user);
+                const JWTtoken =  Encryption.JWTEncryptToken({
+                    _id: user._id,
+                    email: user.email
+                });
+                const res =  Object.assign(user,{
                     JWTtoken
-                }
-                return resolve(response);
-            })
+                })
+                console.log('res :', res);
+                return user;
+            });
+
         },
         createLike:  (root, args) => {
+
             console.log("Like Mutation");
             let likeModel = new LikeModel();
             likeModel._RecieverId = args._RecieverId;
@@ -121,7 +114,30 @@ const resolver = {
             likeModel._PostId = args._PostId;
             let likeData =  likeModel.save();
             // pubsub.publish('LIKE_ADDED', { likeData });
-            socket.emit('NEW_LIKE_CREATED', likeData);
+
+            const post = PostModel.findById(args._PostId,((err,post)=>{
+                if(err) {
+                    console.log('err :', err);
+                }
+                post.Likes = post.Likes + 1;
+                post.save((err,newPost) => {
+                console.log('newPost :', newPost);
+                const notificationMessage = "You Have recieved a new Like";
+                new NotifcationModel({
+                    _userID :args._RecieverId,
+                    type : "like",
+                    message : notificationMessage,
+                    isSeen : false
+                }).save((err,newNotification) => {
+                    if(err) console.log('err',err);
+                    console.log('newNotification :', newNotification);
+
+                    socket.emit('NEW_LIKE_CREATED', newNotification);
+                })
+            })
+            })
+        )
+
             return likeData
 
         }
