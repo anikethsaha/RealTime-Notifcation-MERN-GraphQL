@@ -213,6 +213,12 @@ margin: 1em 0;
     margin: 0 1em;
     font-size: 1.5em;
 }
+.notifcation-content a{
+  background: #e1e4f2;
+  padding: 16px 24px;
+  border-bottom: 1px solid #ebeef6;
+}
+
 .side-bar-header h2{
   font-size: 2em;
 font-weight: 600;
@@ -301,9 +307,18 @@ max-height: 30em;
   text-align: left;
 }
 .notification-content{
-  margin: 1em;
-    border-bottom: 1px solid rgba(0,0,0,.2);
-    color: #6d6d6d;
+  padding: 1em 0;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+  color: #6d6d6d;
+  font-weight: 600;
+}
+.notifcation-content  p{
+  margin-bottom: 0;
+    font-weight: 600;
+}
+.notifcation-content div{
+  padding: 1em;
+  background: #f7f3f3;
 }
 .notification-content:last-child{
   margin-bottom: 0;
@@ -327,4 +342,29 @@ background: #e6e6e6;
 }
 .open{
   display: block;
+}
+
+/* Larger than mobile */
+@media (max-width: 400px) {
+  .button-primary{
+  margin: auto;
+      margin-left: 0%;
+      width: 100%;
+}
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (max-width: 550px) {
+  #mid{
+    width: 100%;
+    margin: 0;
+  }
+  .center-bar{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .sideBar{
+    display: none
+  }
 }
