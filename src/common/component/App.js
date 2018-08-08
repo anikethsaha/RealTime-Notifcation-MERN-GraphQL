@@ -20,13 +20,13 @@ import {
    Link
  } from 'react-router-dom'
  import io from 'socket.io-client';
-  const socket  = io('http://localhost:3000');
+  const socket  = io('http://localhost:4000');
 
 export default class App extends React.Component{
   constructor(props){
     super(props);
     this.testing = this.testing.bind(this);
-    
+
     this.socketVar = socket;
     console.log("store",  store.dispatch({
       type:"ADD_SOCKET_IO",

@@ -24,7 +24,7 @@ class LoginForm extends React.Component{
   }
 
    submit(values){
-    console.log("form submitted" , this.props.LoginQuery);
+    console.log("form submitted" , values);
      this.props.LoginQuery.refetch({
           email :values.email,
           password : values.password
@@ -82,10 +82,10 @@ const mapDepatchToProps = dispatch =>{
 
 LoginForm =  graphql(LoginQuery , {
   name : "LoginQuery",
-  options : (values) =>({
+  options : ({email,password}) =>({
       variables :{
-      email : values.email,
-      password : values.password
+      email ,
+      password
     }
 }
 )

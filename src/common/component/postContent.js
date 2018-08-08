@@ -41,7 +41,7 @@ import {
   render(){
     return (
 
-      <div className="seven columns">
+      <div className="seven columns" id="mid">
         {this.displayPost()}
       </div>
     )

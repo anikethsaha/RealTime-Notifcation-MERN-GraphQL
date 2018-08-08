@@ -1,6 +1,7 @@
 import React from "react"
 import { graphql ,compose  } from 'react-apollo'
 import { addPostMutation , getPost }  from '../GraphQLQueries/Queries.js'
+import { JWTDecryption } from '../Encryption'
 class RightSide extends React.Component{
   constructor(props){
     super(props);
@@ -22,17 +23,25 @@ class RightSide extends React.Component{
     // })
     // this.setState();
   }
-  SendPostDateToGraph(e){
+  async SendPostDateToGraph(e){
     e.preventDefault();
+    if(localStorage.getItem('token')){
+      const DecodedtokenObject = await JWTDecryption(localStorage.getItem('token'));
+      this.props.addPostMutation({
+        variables : {
+          title : this.state.title,
+           body : this.state.body,
+           userId : DecodedtokenObject._id
+        },
+        refetchQueries: [{ query: getPost }]
+      }).then(res =>{
+        console.log('res  from addPostMutation:', res);
+        this.setState();
+      })
+    }else{
+      $('.right-Bar').toggleClass('open');
+    }
 
-    this.props.addPostMutation({
-      variables : {
-        title : this.state.title,
-         body : this.state.body,
-         userId : "7346387sjdfb"
-      },
-      refetchQueries: [{ query: getPost }]
-    })
 
   }
   render(){

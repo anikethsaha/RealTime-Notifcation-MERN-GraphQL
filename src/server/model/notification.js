@@ -6,7 +6,7 @@ const Notification = mongoose.Schema({
    auto: true,
  },
  _userID : {
-   type : mongoose.Schema.Types.ObjectId,
+   type : String,
    required : true
  },
  type : {

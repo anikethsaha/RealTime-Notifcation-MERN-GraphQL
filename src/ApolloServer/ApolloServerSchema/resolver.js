@@ -64,6 +64,32 @@ const resolver = {
                 }
             });
         },
+        clearUnseenNotification : (root,args) => {
+            return NotifcationModel.updatem(
+                { _userID : args._userID },
+                { $set: { isSeen : true}},
+                 (err,notification) =>{
+                if(err){
+                     console.log('err from clearUnseenNotification:', err);
+                }else{
+                    return notification;
+                }
+            })
+        },
+        allNotification : (root,args) => {
+            return NotifcationModel.find({_userID : args._userID},(err,notification)=>{
+                if(err){
+                    console.log('err  from allNotification:', err);
+                }else{
+                    console.log("from resovler response of notifitcation",notification)
+                    if(notification.length > 0){
+                       return notification;
+                    }else{
+                        return {};
+                    }
+                }
+            })
+               },
         author: (root, args) => MerchantUser.find().exec(),
         postDetails: (root, args) => PostModel.find({
             _UserID: root._id
@@ -73,13 +99,22 @@ const resolver = {
 
     Mutation: {
         addPost:  (root, args) => {
-            let postModel = new PostModel();
-            postModel.Title = args.Title;
-            postModel.Body = args.Body;
-            postModel._UserID = args._UserID;
-            postModel.likesCount = 0;
-            postModel.comments = "";
-            return  postModel.save();
+            console.log('args from addPost :', args);
+            return new PostModel({
+                Title : args.Title,
+                Body : args.Body,
+                _UserID : args._UserID,
+                likesCount : 0,
+                comments : ""
+            }).save((err,newPost) => {
+                if(err){
+                    console.log('err  from  addPost:', err);
+                }else{
+                    return newPost;
+                }
+            });
+
+            return  postModel.save().exec();
         },
         registerUser:  (root, args) => {
             // registration here
@@ -105,7 +140,7 @@ const resolver = {
             });
 
         },
-        createLike:  (root, args) => {
+        createLike :  (root, args) => {
 
             console.log("Like Mutation");
             let likeModel = new LikeModel();

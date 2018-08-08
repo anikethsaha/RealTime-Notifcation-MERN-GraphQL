@@ -44,11 +44,12 @@ const typeDefs = `
     author : [user],
     postDetails : [post],
     checkNotification(_userID : String!) : [notification]!,
-    allNotification : [notification]!
+    allNotification(_userID : String!) : [notification]!,
+    clearUnseenNotification(_userID : String!) : [notification]!
   }
 
   type Mutation{
-    addPost(title : String!,body:String!,_UserID : String!) : post,
+    addPost(Title : String!,Body:String!,_UserID : String!) : post,
     registerUser(
       email : String! ,
       password : String!,

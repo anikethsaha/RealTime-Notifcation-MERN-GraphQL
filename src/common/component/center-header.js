@@ -4,7 +4,8 @@ import {connect } from 'react-redux'
 import NotificationBell from './NotificationBell.js'
 import NotificationBox from './NotificationBox.js'
 import { JWTDecryption } from '../Encryption'
-import { checkNotification } from '../GraphQLQueries/Queries.js'
+import { checkNotification , allNotification} from '../GraphQLQueries/Queries.js'
+
  class CenterHeader extends React.Component{
   constructor(){
     super();
@@ -12,20 +13,21 @@ import { checkNotification } from '../GraphQLQueries/Queries.js'
       isNotification : false
 
     };
+    // this.getNotificationData = this.getNotificationData.bind(this);
     this.onNotificationBellClicked = this.onNotificationBellClicked.bind(this);
 
   }
 
    async componentDidMount(){
-    console.log('this.props from notifcation :', this.props);
+
     if(localStorage.getItem('token')){
       const DecodedtokenObject = await JWTDecryption(localStorage.getItem('token'));
-      console.log('DecodedtokenObject._id :', DecodedtokenObject._id);
+
           this.props.checkNotification.refetch({
             userID : DecodedtokenObject._id
           }).then(res => {
             if(res.data.checkNotification.length > 0){
-              console.log('notify me now',res.data.checkNotification);
+
               this.setState({
                 isNotification : true
               });
@@ -53,13 +55,17 @@ import { checkNotification } from '../GraphQLQueries/Queries.js'
 
     })
   }
-  onNotificationBellClicked(){
+
+   onNotificationBellClicked(){
     this.setState({
       noOfNotification : 0,
       isNotification : false
     });
     $('.notification-box').toggleClass('open');
     $('.tria').toggleClass('open');
+
+
+
   }
   render(){
     return (
@@ -76,10 +82,9 @@ import { checkNotification } from '../GraphQLQueries/Queries.js'
           <NotificationBell
             onClickHandler = {this.onNotificationBellClicked}
             isOn={this.state.isNotification}
-            data = {this.NotificationData || ""}
           />
         </div>
-        <NotificationBox />
+        <NotificationBox data = {this.NotificationData || ""} />
 
       </div>
     )
@@ -102,11 +107,14 @@ CenterHeader =  connect(
     mapDepatchToProps
   )(CenterHeader);
 
-  export default graphql(checkNotification,{
-    name:"checkNotification",
-    options : (value ) => ({
-      variables : {
-        userID : value
-      }
+  // export default (CenterHeader);
+export default compose(
+  graphql(checkNotification,{
+      name:"checkNotification",
+      options : (value ) => ({
+        variables : {
+          userID : value
+        }
+      })
     })
-  })(CenterHeader);
+)(CenterHeader)

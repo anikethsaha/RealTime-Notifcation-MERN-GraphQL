@@ -55,6 +55,17 @@ const LoginQuery = gql `
     }
   }
 `;
+const allNotification = gql`
+query notification($userID : String!){
+  allNotification(_userID : $userID){
+    _id
+    type
+    message
+    _userID
+    metaData
+  }
+}
+`;
 const createLike = gql `
 mutation(
   $postID : String!,
@@ -104,5 +115,6 @@ export {
     LoginQuery,
     getFullPost,
     createLike,
-    checkNotification
+    checkNotification,
+    allNotification
 };
