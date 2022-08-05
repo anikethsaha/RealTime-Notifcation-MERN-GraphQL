@@ -41,7 +41,7 @@
     "isomorphic-ws": "^4.0.1",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
-    "mongoose": "^5.1.4",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.17.3",
     "object-assign": "^4.1.1",
     "polyfill": "^0.1.0",
